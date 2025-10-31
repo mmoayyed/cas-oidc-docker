@@ -1,0 +1,10 @@
+{
+  "@class" : "org.apereo.cas.services.OidcRegisteredService",
+  "clientId": "jlJlJSGbH3BPgz",
+  "clientSecret": "4uKcawTxxC2bfU",
+  "serviceId" : "^http.+/api/session/openid/callback",
+  "name": "Traccar",
+  "id": 1,
+  "scopes" : [ "java.util.HashSet", [ "profile", "email", "address", "phone" ]
+  ]
+}
