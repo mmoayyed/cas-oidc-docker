@@ -2,6 +2,7 @@
   "@class" : "org.apereo.cas.services.OidcRegisteredService",
   "clientId": "jlJlJSGbH3BPgz",
   "clientSecret": "4uKcawTxxC2bfU",
+  "bypassApprovalPrompt" : true,
   "serviceId" : "^http.+/api/session/openid/callback",
   "name": "Traccar",
   "id": 1,
