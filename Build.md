@@ -27,7 +27,7 @@ Add the following block inside this tag:
 ```xml
 <dependency>
     <groupId>org.apereo.cas</groupId>
-    <artifactId>cas-server-support-pac4j-api</artifactId>
+    <artifactId>cas-server-support-oidc</artifactId>
     <version>$YOUR_CAS_VERSION</version>
 </dependency>
 ```
@@ -57,3 +57,32 @@ If your CAS server is built with Gradle, you do not need to download Gradle sepa
 This step is only required if your CAS server is built with Gradle and you can locate a `build.gradle` file inside the main CAS server directory where installation files are located. i.e. `/opt/cas-server`. You should be able to execute this command `./gradlew --version` from inside the CAS directory. 
 
 If you're building on Windows, make sure to execute the `./gradlew.bat --version` instead. 
+
+Next, locate your `/opt/cas-server/build.gradle` file and locate the `dependencies` top-level tag.
+
+Add the following block inside this tag:
+
+```xml
+dependencies {
+    // Only add the line below....
+    implementation "org.apereo.cas:cas-server-support-oidc:YOUR_CAS_VERSION"
+}
+```
+
+Change `YOUR_CAS_VERSION` to match your CAS version. This should be THE SAME for all other entries in the same file. i.e. `6.2.8`.
+
+Then, execute this command:
+
+```bash
+cd /opt/cas-server
+/.gradlew clean build
+```
+
+If you're on Windows:
+
+```bash
+cd /opt/cas-server
+./gradlew.bat clean build
+```
+
+You should see a `BUILD SUCCESS` at the end of this command. The generated CAS server is available at `/opt/cas-server/build/libs/cas.war`
