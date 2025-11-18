@@ -95,17 +95,17 @@ If you cannot locate this directory, you should confirm its location by looking 
 
 ```properties
 cas.service-registry.json.location=...
-``
+```
 
-The `...` should tell you where the application registration records are located.
+The `...` should tell you where the application registration records are located. If you cannot locate the `cas.properties` file at that location or if the setting is not found inside that file, then the CAS server is using a different way of registering applications and the configuration altogether needs to be reviewed with an expert.
 
-Locate this directory and create a `Traccar-1.json` file inside it. Paste the following inside this file:
+Assuming you found this directory, i.e. `/etc/cas/services`, create a `Traccar-1.json` file inside it. Paste the following inside this file:
 
 ```json
 {
   "@class" : "org.apereo.cas.services.OidcRegisteredService",
-  "clientId": "jlJlJSGbH3BPgz",
-  "clientSecret": "4uKcawTxxC2bfU",
+  "clientId": "...",
+  "clientSecret": "...",
   "bypassApprovalPrompt" : true,
   "serviceId" : "^http.+/api/session/openid/callback",
   "name": "Traccar",
@@ -114,5 +114,11 @@ Locate this directory and create a `Traccar-1.json` file inside it. Paste the fo
   ]
 }
 ```
+
+Note:
+
+- You should create your own client ID and client secret.  Generate your own values and share them with the Traccar application owners. These values could be any simple random value, i.e `b6fhg54jdbvk9`
+
+- You MUST make sure your CAS server is fetching these attributes from the attribute source: `name`, `email`, `email_verified`. The first two are most important. If your user attributes come from LDAP, you MUST make sure the LDAP configuration is fetching these attributes, and you must have them available for all users in LDAP.
 
 Now you should be able to deploy the CAS web application (the .war file that was generated earlier) and restart it. 
