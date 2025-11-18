@@ -4,7 +4,7 @@ Apereo CAS server is typically built with Apache Maven or Gradle. These are buil
 
 First, you must locate where your CAS installation directory is. This is the directory that contains either `pom.xml` file (if your server is built with Apache Maven) or a `build.gradle` file (if your server is built with Gradle).
 
-Note that an active internet connection is required on the machine that builds the CAS server.
+**Note**: an active internet connection is required on the machine that builds the CAS server.
 
 ## Java 11
 
@@ -28,7 +28,7 @@ Add the following block inside this tag:
 <dependency>
     <groupId>org.apereo.cas</groupId>
     <artifactId>cas-server-support-oidc</artifactId>
-    <version>$YOUR_CAS_VERSION</version>
+    <version>YOUR_CAS_VERSION</version>
 </dependency>
 ```
 
@@ -62,9 +62,9 @@ Next, locate your `/opt/cas-server/build.gradle` file and locate the `dependenci
 
 Add the following block inside this tag:
 
-```xml
+```groovy
 dependencies {
-    // Only add the line below....
+    // ONLY add the line below....
     implementation "org.apereo.cas:cas-server-support-oidc:YOUR_CAS_VERSION"
 }
 ```
@@ -86,3 +86,33 @@ cd /opt/cas-server
 ```
 
 You should see a `BUILD SUCCESS` at the end of this command. The generated CAS server is available at `/opt/cas-server/build/libs/cas.war`
+
+# Register Traccar Application
+
+The Traccar application needs to be registered with CAS first. Typically applications are registered with CAS using simple JSON files and these files are usually found inside the `/etc/cas/services` directory or on Windows, this would be `c:\etc\cas\services`. 
+
+If you cannot locate this directory, you should confirm its location by looking at `c:\etc\cas\config\cas.properties` file or `/etc/cas/config/cas.properties` file. In this file, you should spot the following property:
+
+```properties
+cas.service-registry.json.location=...
+``
+
+The `...` should tell you where the application registration records are located.
+
+Locate this directory and create a `Traccar-1.json` file inside it. Paste the following inside this file:
+
+```json
+{
+  "@class" : "org.apereo.cas.services.OidcRegisteredService",
+  "clientId": "jlJlJSGbH3BPgz",
+  "clientSecret": "4uKcawTxxC2bfU",
+  "bypassApprovalPrompt" : true,
+  "serviceId" : "^http.+/api/session/openid/callback",
+  "name": "Traccar",
+  "id": 1,
+  "scopes" : [ "java.util.HashSet", [ "profile", "email", "address", "phone" ]
+  ]
+}
+```
+
+Now you should be able to deploy the CAS web application (the .war file that was generated earlier) and restart it. 
